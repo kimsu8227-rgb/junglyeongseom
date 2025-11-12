@@ -1,48 +1,56 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>정령섬 랜더마이저</title>
-  <style>
-    body { font-family: Pretendard, sans-serif; text-align:center; padding:40px; background:#f8fafc; }
-    h1 { font-size:2rem; margin-bottom:20px; }
-    button { background:#2563eb; color:white; border:none; padding:10px 20px; border-radius:8px; font-size:1rem; cursor:pointer; }
-    button:hover { background:#1e40af; }
-    .result { margin-top:30px; font-size:1.1rem; }
-  </style>
-</head>
-<body>
-  <h1>🌀 정령섬 랜더마이저</h1>
-  <button onclick="randomize()">랜덤 돌리기</button>
-  <div class="result" id="result"></div>
+<script>
+  const scenarios = [
+    "다한의 저항","식민지화 물결","운명이 펼쳐지다","해안 사수","두 번째 공격",
+    "기습 공격","다양한 지형","거대한 강","원소의 부름","비열한 도적질",
+    "섬의 심장을 지켜라","공포의 의식","오랫동안 잊혀졌던 능력","파멸의 불꽃 소환 의식","정령의 다양성"
+  ];
 
-  <script>
-    const scenarios = [
-      "다한의 저항","식민지화 물결","운명이 펼쳐지다","해안 사수","두 번째 공격",
-      "기습 공격","다양한 지형","거대한 강","원소의 부름","비열한 도적질",
-      "섬의 심장을 지켜라","공포의 의식","오랫동안 잊혀졌던 능력","파멸의 불꽃 소환 의식","정령의 다양성"
-    ];
-    const enemies = [
-      "프랑스 왕국","합스부르크 군주국","스코틀랜드 왕국","스웨덴 왕국",
-      "잉글랜드 왕국","브란덴부르크-프로이센 왕국","합스부르크 채굴 탐험대","러시아 차르국"
-    ];
+  const scenarioInfo = {
+    "다한의 저항": "섬의 원주민이 강력한 저항을 일으킵니다. 정령은 더 많은 공포를 쌓아야 승리할 수 있습니다.",
+    "식민지화 물결": "침략자들이 매 턴마다 더 빠르게 확장합니다.",
+    "운명이 펼쳐지다": "모든 정령이 특별한 운명의 카드를 받습니다.",
+    "정령의 다양성": "서로 다른 정령 능력을 활용해야 합니다. 조합이 중요합니다."
+    // 👉 나머지도 여기에 설명 추가 가능
+  };
 
-    function randomize() {
-      const mode = Math.floor(Math.random() * 3);
-      let text = "";
-      if (mode === 0) {
-        text = `🎯 유형: 시나리오<br>📜 시나리오: ${rand(scenarios)}`;
-      } else if (mode === 1) {
-        text = `🎯 유형: 적대국<br>⚔️ 적대국: ${rand(enemies)}`;
-      } else {
-        text = `🎯 유형: 둘 다<br>📜 시나리오: ${rand(scenarios)}<br>⚔️ 적대국: ${rand(enemies)}`;
-      }
-      document.getElementById("result").innerHTML = text;
+  const enemies = [
+    "프랑스 왕국","합스부르크 군주국","스코틀랜드 왕국","스웨덴 왕국",
+    "잉글랜드 왕국","브란덴부르크-프로이센 왕국","합스부르크 채굴 탐험대","러시아 차르국"
+  ];
+
+  const enemyInfo = {
+    "잉글랜드 왕국": "도시를 빠르게 건설하지만 방어가 약합니다.",
+    "프랑스 왕국": "정찰 후 강력한 공격을 가합니다.",
+    "러시아 차르국": "느리지만 한 번에 큰 피해를 줍니다."
+    // 👉 여기도 설명을 점점 추가해나가면 돼!
+  };
+
+  function randomize() {
+    const mode = Math.floor(Math.random() * 3);
+    let resultHTML = "";
+
+    if (mode === 0) {
+      const s = rand(scenarios);
+      resultHTML = `🎯 유형: 시나리오<br>📜 시나리오: ${s}<br><br>📘 설명: ${scenarioInfo[s] || "정보가 없습니다."}`;
+    } else if (mode === 1) {
+      const e = rand(enemies);
+      resultHTML = `🎯 유형: 적대국<br>⚔️ 적대국: ${e}<br><br>⚙️ 설명: ${enemyInfo[e] || "정보가 없습니다."}`;
+    } else {
+      const s = rand(scenarios);
+      const e = rand(enemies);
+      resultHTML = `
+        🎯 유형: 둘 다<br>
+        📜 시나리오: ${s}<br>
+        ⚔️ 적대국: ${e}<br><br>
+        📘 시나리오 설명: ${scenarioInfo[s] || "정보가 없습니다."}<br>
+        ⚙️ 적대국 설명: ${enemyInfo[e] || "정보가 없습니다."}
+      `;
     }
 
-    function rand(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-  </script>
-</body>
-</html>
+    document.getElementById("result").innerHTML = resultHTML;
+  }
+
+  function rand(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+</script>
