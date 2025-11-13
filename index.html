@@ -71,8 +71,8 @@
     <button onclick="location.href='rules.html'">⚙️ 세부 규칙 검색</button>
   </div>
 
-  <div id="result" class="result-box">
-    <h2>결과가 여기에 표시됩니다</h2>
+  <div class="result-box">
+    <h2 id="title">결과가 여기에 표시됩니다</h2>
     <div class="description" id="description"></div>
   </div>
 
@@ -126,7 +126,8 @@
         desc = `${s.desc}<br><br>${e.desc}`;
       }
 
-      document.getElementById("result").innerHTML = `<h2>${title}</h2>`;
+      // 여기! result 전체를 갈아엎지 말고, 안에 있는 요소만 바꿔줌
+      document.getElementById("title").innerHTML = title;
       document.getElementById("description").innerHTML = desc;
     }
 
