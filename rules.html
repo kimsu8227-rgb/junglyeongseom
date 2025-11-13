@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정령섬 규칙 검색</title>
+<style>
+  body {
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    background: linear-gradient(135deg, #1c2e4a, #3a7bd5);
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+  input {
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .rule {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .rule:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.02);
+  }
+  .back {
+    margin-top: 30px;
+    background-color: #fff;
+    color: #333;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+
+<h1>📖 정령섬 세부 규칙 검색</h1>
+<input type="text" id="searchInput" placeholder="예: 공포, 건설, 승리 조건 등">
+<div class="list" id="ruleList"></div>
+
+<button class="back" onclick="window.location.href='index.html'">← 랜더마이저로 돌아가기</button>
+
+<script>
+const rules = [
+  { title: "공포 규칙", desc: "공포 단계가 높아질수록 침략자들이 더 쉽게 물러납니다. 3단계 공포 달성 시 도시만 남으면 승리합니다." },
+  { title: "건설 규칙", desc: "침략자는 매턴 건설 단계를 진행하며, 우선순위 지역에 도시나 마을을 짓습니다." },
+  { title: "탐험 규칙", desc: "정찰 후 탐험 단계에서 새로운 지역에 침략자 토큰이 배치됩니다." },
+  { title: "승리 조건", desc: "공포 단계 3 달성 + 모든 도시 제거 시 즉시 승리합니다." },
+  { title: "패배 조건", desc: "섬의 오염이 최대치에 도달하거나 정령의 존재가 사라지면 패배합니다." },
+  { title: "성장 단계", desc: "정령은 자신의 성장 단계에서 에너지를 얻거나 새로운 힘 카드를 가져올 수 있습니다." },
+  { title: "신성한 힘 발동", desc: "각 정령은 자신만의 고유한 신성한 힘을 한 번에 사용할 수 있습니다." }
+];
+
+const list = document.getElementById("ruleList");
+const input = document.getElementById("searchInput");
+
+function renderList(filter="") {
+  list.innerHTML = "";
+  rules
+    .filter(r => r.title.includes(filter) || r.desc.includes(filter))
+    .forEach(r => {
+      const div = document.createElement("div");
+      div.className = "rule";
+      div.innerHTML = `<strong>${r.title}</strong><br><br>${r.desc}`;
+      list.appendChild(div);
+    });
+}
+
+input.addEventListener("input", e => {
+  renderList(e.target.value.trim());
+});
+
+// 처음엔 전체 목록 표시
+renderList();
+</script>
+
+</body>
+</html>
 
