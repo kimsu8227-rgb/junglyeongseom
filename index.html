@@ -3,65 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>정령섬 랜덤 생성기</title>
+  <title>정령섬 랜더마이저</title>
   <style>
     body {
       font-family: "Noto Sans KR", sans-serif;
       text-align: center;
-      background-color: #f5f7fa;
+      background-color: #f5f8ff;
       margin: 0;
       padding: 20px;
     }
+
     h1 {
-      color: #333;
+      color: #1c2e4a;
+      margin-bottom: 10px;
     }
+
     button {
       margin: 10px;
-      padding: 10px 20px;
+      padding: 14px 28px;
       font-size: 16px;
       border-radius: 10px;
       border: none;
       cursor: pointer;
       background-color: #4a90e2;
       color: white;
-      transition: 0.2s;
+      transition: background 0.2s ease-in-out;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
+
     button:hover {
       background-color: #357abd;
     }
+
     .result-box {
-      margin-top: 20px;
+      margin-top: 30px;
       background: white;
-      padding: 25px;
+      padding: 30px;
       border-radius: 15px;
       width: 90%;
-      max-width: 600px;
+      max-width: 750px;
       margin-left: auto;
       margin-right: auto;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
+
     .description {
       text-align: left;
-      margin-top: 15px;
+      margin-top: 20px;
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.7;
       color: #333;
-      width: 100%;
     }
+
     .button-container {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 15px;
       flex-wrap: wrap;
     }
   </style>
 </head>
 <body>
-  <h1>🌊 정령섬 랜덤 생성기</h1>
+  <h1>🌊 정령섬 랜더마이저</h1>
+
   <div class="button-container">
-    <button onclick="generate('scenario')">시나리오만</button>
-    <button onclick="generate('enemy')">적대국만</button>
-    <button onclick="generate('both')">둘 다</button>
+    <button onclick="randomize()">🎲 랜덤 돌리기</button>
     <button onclick="location.href='rules.html'">⚙️ 세부 규칙 검색</button>
   </div>
 
@@ -92,7 +98,7 @@
     const enemies = [
       { name: "프랑스 왕국", desc: "해상전과 식민 전략에 능한 강력한 적대국입니다." },
       { name: "합스부르크 군주국", desc: "금속과 채굴을 통한 자원 우위를 점합니다." },
-      { name: "스코틀랜드 왕국", desc: "스코틀랜드는 브리튼섬 북부에서 항상 균형을 유지해야 했습니다. 제임스 7세는, 남쪽에 위치한 규모가 더 크고 인구가 더 많은 잉글랜드 왕국과 북해 건너편의 스웨덴 왕국, 그리고 유럽 본토의 강력한 프랑스 왕국 사이에서 이 역할을 잘 수행하고 있었습니다. 최근, 파나마 지협에 있는 다리엔을 성공적으로 식민지화해서 그 성과가 조명받고 있기도 했습니다. 잉글랜드, 스웨덴, 스페인, 프랑스 등의 주요 해양 강국들 간의 불신과 경쟁 덕분에 스코틀랜드는 국제 무역의 주요 중개자로 부상했습니다.현재 스코틀랜드 왕국은 스페인, 프랑스, 잉글랜드와 함께 불안정한 동맹을 맺고 스웨덴, 합스부르크, 프로이센 왕국의 북유럽 동맹에 맞서고 있습니다. 그러나 스코틀랜드 상인들은 스웨덴 상품을 자주 운송하고 있어 북대서양 봉쇄 시도가 대부분 무의미해지고 있습니다. 스코틀랜드는 다리엔이라는 중요한 식민지를 점령하고 있어, 스코틀랜드 상인들은 남아메리카를 돌아 수천 마일을 이동하지 않고도 대서양에서 태평양으로 상품을 운송할 수 있습니다. 스코틀랜드는 태평양으로 빠르게 상품을 선적할 수 있는 이 고유한 능력으로 인해, 환태평양 지역에 빠르게 정착할 수 있었으며 이 지역의 다른 주요 무역 거점에도 식민지를 설립할 수 있었습니다.<br>‼️침략자 행동을 완전히 생략할 수 있는 정령은 이 적대국을 상대하기가 쉬울 것입니다.<br>‼️해안 지역의 도시 건설을 막는 것이 어려운 정령(고요한 안개의 장막 등)은 이 적대국을 상대하기가 어려울 것입니다.<br>‼️이 적대국이 D 섬보드에 있다면, 해안 지역이면서 습지인 지역이 2개가 있어 게임의 균형을 해칠 수 있습니다" },
+      { name: "스코틀랜드 왕국", desc: "거친 자연과 전사 문화로 유명합니다." },
       { name: "스웨덴 왕국", desc: "추운 북방의 용맹한 군세를 자랑합니다." },
       { name: "잉글랜드 왕국", desc: "해양 패권을 장악한 강력한 제국입니다." },
       { name: "브란덴부르크-프로이센 왕국", desc: "규율과 질서를 중시하는 군사 강국입니다." },
@@ -100,29 +106,32 @@
       { name: "러시아 차르국", desc: "광대한 영토와 냉혹한 전술을 가진 강적입니다." }
     ];
 
-    function generate(type) {
-      const resultBox = document.getElementById('result');
-      const descBox = document.getElementById('description');
-      let output = "";
+    function randomize() {
+      const mode = Math.floor(Math.random() * 3); // 0=시나리오, 1=적대국, 2=둘 다
+      let title = "";
       let desc = "";
 
-      if (type === 'scenario') {
-        const s = scenarios[Math.floor(Math.random() * scenarios.length)];
-        output = `🎭 시나리오: ${s.name}`;
+      if (mode === 0) {
+        const s = rand(scenarios);
+        title = `🎭 시나리오: ${s.name}`;
         desc = s.desc;
-      } else if (type === 'enemy') {
-        const e = enemies[Math.floor(Math.random() * enemies.length)];
-        output = `⚔️ 적대국: ${e.name}`;
+      } else if (mode === 1) {
+        const e = rand(enemies);
+        title = `⚔️ 적대국: ${e.name}`;
         desc = e.desc;
       } else {
-        const s = scenarios[Math.floor(Math.random() * scenarios.length)];
-        const e = enemies[Math.floor(Math.random() * enemies.length)];
-        output = `🎭 시나리오: ${s.name}<br>⚔️ 적대국: ${e.name}`;
+        const s = rand(scenarios);
+        const e = rand(enemies);
+        title = `🎭 시나리오: ${s.name}<br>⚔️ 적대국: ${e.name}`;
         desc = `${s.desc}<br><br>${e.desc}`;
       }
 
-      resultBox.innerHTML = `<h2>${output}</h2>`;
-      descBox.innerHTML = desc;
+      document.getElementById("result").innerHTML = `<h2>${title}</h2>`;
+      document.getElementById("description").innerHTML = desc;
+    }
+
+    function rand(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
     }
   </script>
 </body>
