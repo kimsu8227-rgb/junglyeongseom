@@ -85,50 +85,54 @@
       { name: "두 번째 공격", desc: "한 번 물러난 적이 재정비하여 다시 돌아왔습니다." },
       { name: "기습 공격", desc: "예상치 못한 방향에서의 기습. 방심은 금물입니다." },
       { name: "다양한 지형", desc: "섬의 각 지역이 서로 다른 도전을 제공합니다." },
-      { name: "거대한 강", desc: "강이 전장의 중심이 됩니다. 이동과 전투에 영향을 줍니다." },
+      { name: "거대한 강", desc: "강이 전장의 중심이 됩니다." },
       { name: "원소의 부름", desc: "정령들의 본질적인 힘이 깨어납니다." },
       { name: "비열한 도적질", desc: "침략자들이 자원을 약탈합니다." },
       { name: "섬의 심장을 지켜라", desc: "섬의 중심부가 공격받습니다." },
-      { name: "공포의 의식", desc: "적이 공포의 의식을 준비 중입니다." },
+      { name: "공포의 의식", desc: "침략자들이 공포를 일으키는 의식을 준비합니다." },
       { name: "오랫동안 잊혀졌던 능력", desc: "옛 정령의 힘이 다시 깨어납니다." },
-      { name: "파멸의 불꽃 소환 의식", desc: "적이 파멸의 불꽃을 소환하려 합니다." },
+      { name: "파멸의 불꽃 소환 의식", desc: "침략자들이 강력한 불꽃을 소환하려 합니다." },
       { name: "정령의 다양성", desc: "서로 다른 정령의 조합이 강력한 힘을 발휘합니다." }
     ];
 
     const enemies = [
       { name: "프랑스 왕국", desc: "해상전과 식민 전략에 능한 강력한 적대국입니다." },
-      { name: "합스부르크 군주국", desc: "금속과 채굴을 통한 자원 우위를 점합니다." },
-      { name: "스코틀랜드 왕국", desc: "거친 자연과 전사 문화로 유명합니다." },
-      { name: "스웨덴 왕국", desc: "추운 북방의 용맹한 군세를 자랑합니다." },
-      { name: "잉글랜드 왕국", desc: "해양 패권을 장악한 강력한 제국입니다." },
-      { name: "브란덴부르크-프로이센 왕국", desc: "규율과 질서를 중시하는 군사 강국입니다." },
-      { name: "합스부르크 채굴 탐험대", desc: "자원 확보를 목적으로 섬에 접근합니다." },
-      { name: "러시아 차르국", desc: "광대한 영토와 냉혹한 전술을 가진 강적입니다." }
+      { name: "합스부르크 군주국", desc: "금속과 채굴을 통해 자원 우위를 점합니다." },
+      { name: "스코틀랜드 왕국", desc: "거친 자연과 전사 문화로 유명한 왕국입니다." },
+      { name: "스웨덴 왕국", desc: "북방의 강력한 군세를 자랑합니다." },
+      { name: "잉글랜드 왕국", desc: "해양 패권을 자랑하는 제국입니다." },
+      { name: "브란덴부르크-프로이센 왕국", desc: "규율 있고 단단한 군대를 가진 국가입니다." },
+      { name: "합스부르크 채굴 탐험대", desc: "자원 확보를 위해 섬에 접근합니다." },
+      { name: "러시아 차르국", desc: "광대한 영토에서 오는 압도적 물량을 보유합니다." }
     ];
 
     function randomize() {
       const mode = Math.floor(Math.random() * 3); // 0=시나리오, 1=적대국, 2=둘 다
       let title = "";
-      let desc = "";
+      let descHTML = "";
 
       if (mode === 0) {
         const s = rand(scenarios);
         title = `🎭 시나리오: ${s.name}`;
-        desc = s.desc;
-      } else if (mode === 1) {
+        descHTML = `<strong>📘 시나리오 설명:</strong><br>${s.desc}`;
+      } 
+      else if (mode === 1) {
         const e = rand(enemies);
         title = `⚔️ 적대국: ${e.name}`;
-        desc = e.desc;
-      } else {
+        descHTML = `<strong>⚙️ 적대국 설명:</strong><br>${e.desc}`;
+      } 
+      else {
         const s = rand(scenarios);
         const e = rand(enemies);
         title = `🎭 시나리오: ${s.name}<br>⚔️ 적대국: ${e.name}`;
-        desc = `${s.desc}<br><br>${e.desc}`;
+        descHTML = `
+          <strong>📘 시나리오 설명:</strong><br>${s.desc}<br><br>
+          <strong>⚙️ 적대국 설명:</strong><br>${e.desc}
+        `;
       }
 
-      // 여기! result 전체를 갈아엎지 말고, 안에 있는 요소만 바꿔줌
       document.getElementById("title").innerHTML = title;
-      document.getElementById("description").innerHTML = desc;
+      document.getElementById("description").innerHTML = descHTML;
     }
 
     function rand(arr) {
