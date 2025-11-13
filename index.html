@@ -1,119 +1,129 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정령섬 랜더마이저</title>
-<style>
-  body {
-    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-    background: linear-gradient(135deg, #1c2e4a, #3a7bd5);
-    color: #fff;
-    text-align: center;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
-  }
-  button {
-    background-color: #ffffff;
-    color: #333;
-    border: none;
-    border-radius: 12px;
-    padding: 15px 30px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: all 0.2s ease-in-out;
-  }
-  button:hover {
-    transform: scale(1.05);
-    background-color: #eaeaea;
-  }
-  .result {
-    margin-top: 30px;
-    font-size: 1.2rem;
-    line-height: 2rem;
-    padding: 20px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>정령섬 랜덤 생성기</title>
+  <style>
+    body {
+      font-family: "Noto Sans KR", sans-serif;
+      text-align: center;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      background-color: #4a90e2;
+      color: white;
+      transition: 0.2s;
+    }
+    button:hover {
+      background-color: #357abd;
+    }
+    .result-box {
+      margin-top: 20px;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .description {
+      text-align: left;
+      margin-top: 15px;
+      font-size: 15px;
+      line-height: 1.5;
+      color: #333;
+      width: 100%;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  </style>
 </head>
 <body>
+  <h1>🌊 정령섬 랜덤 생성기</h1>
+  <div class="button-container">
+    <button onclick="generate('scenario')">시나리오만</button>
+    <button onclick="generate('enemy')">적대국만</button>
+    <button onclick="generate('both')">둘 다</button>
+    <button onclick="location.href='rules.html'">⚙️ 세부 규칙 검색</button>
+  </div>
 
-<h1>🌀 정령섬 랜더마이저</h1>
-<button onclick="randomize()">랜덤 돌리기</button>
-<div class="result" id="result"></div>
+  <div id="result" class="result-box">
+    <h2>결과가 여기에 표시됩니다</h2>
+    <div class="description" id="description"></div>
+  </div>
 
-<script>
-  const scenarios = [
-    "다한의 저항","식민지화 물결","운명이 펼쳐지다","해안 사수","두 번째 공격",
-    "기습 공격","다양한 지형","거대한 강","원소의 부름","비열한 도적질",
-    "섬의 심장을 지켜라","공포의 의식","오랫동안 잊혀졌던 능력","파멸의 불꽃 소환 의식","정령의 다양성"
-  ];
+  <script>
+    const scenarios = [
+      { name: "다한의 저항", desc: "섬의 방어를 위한 첫 번째 시도. 정령들이 힘을 모아 적을 저지해야 합니다." },
+      { name: "식민지화 물결", desc: "침략자들이 해안을 따라 상륙을 시도합니다. 각 정령은 협력해야 합니다." },
+      { name: "운명이 펼쳐지다", desc: "운명의 실이 얽히며 섬의 정체가 드러납니다." },
+      { name: "해안 사수", desc: "바다를 통해 침략이 시작됩니다. 해안 지역이 중요합니다." },
+      { name: "두 번째 공격", desc: "한 번 물러난 적이 재정비하여 다시 돌아왔습니다." },
+      { name: "기습 공격", desc: "예상치 못한 방향에서의 기습. 방심은 금물입니다." },
+      { name: "다양한 지형", desc: "섬의 각 지역이 서로 다른 도전을 제공합니다." },
+      { name: "거대한 강", desc: "강이 전장의 중심이 됩니다. 이동과 전투에 영향을 줍니다." },
+      { name: "원소의 부름", desc: "정령들의 본질적인 힘이 깨어납니다." },
+      { name: "비열한 도적질", desc: "침략자들이 자원을 약탈합니다." },
+      { name: "섬의 심장을 지켜라", desc: "섬의 중심부가 공격받습니다." },
+      { name: "공포의 의식", desc: "적이 공포의 의식을 준비 중입니다." },
+      { name: "오랫동안 잊혀졌던 능력", desc: "옛 정령의 힘이 다시 깨어납니다." },
+      { name: "파멸의 불꽃 소환 의식", desc: "적이 파멸의 불꽃을 소환하려 합니다." },
+      { name: "정령의 다양성", desc: "서로 다른 정령의 조합이 강력한 힘을 발휘합니다." }
+    ];
 
-  const scenarioInfo = {
-    "다한의 저항": "섬의 원주민이 강력한 저항을 일으킵니다. 정령은 더 많은 공포를 쌓아야 승리할 수 있습니다.",
-    "식민지화 물결": "침략자들이 매 턴마다 더 빠르게 확장합니다.",
-    "운명이 펼쳐지다": "모든 정령이 특별한 운명의 카드를 받습니다.",
-    "정령의 다양성": "서로 다른 정령 능력을 활용해야 합니다. 조합이 중요합니다."
-    // 👉 나머지도 여기에 설명 추가 가능
-  };
+    const enemies = [
+      { name: "프랑스 왕국", desc: "해상전과 식민 전략에 능한 강력한 적대국입니다." },
+      { name: "합스부르크 군주국", desc: "금속과 채굴을 통한 자원 우위를 점합니다." },
+      { name: "스코틀랜드 왕국", desc: "스코틀랜드는 브리튼섬 북부에서 항상 균형을 유지해야 했습니다. 제임스 7세는, 남쪽에 위치한 규모가 더 크고 인구가 더 많은 잉글랜드 왕국과 북해 건너편의 스웨덴 왕국, 그리고 유럽 본토의 강력한 프랑스 왕국 사이에서 이 역할을 잘 수행하고 있었습니다. 최근, 파나마 지협에 있는 다리엔을 성공적으로 식민지화해서 그 성과가 조명받고 있기도 했습니다. 잉글랜드, 스웨덴, 스페인, 프랑스 등의 주요 해양 강국들 간의 불신과 경쟁 덕분에 스코틀랜드는 국제 무역의 주요 중개자로 부상했습니다.현재 스코틀랜드 왕국은 스페인, 프랑스, 잉글랜드와 함께 불안정한 동맹을 맺고 스웨덴, 합스부르크, 프로이센 왕국의 북유럽 동맹에 맞서고 있습니다. 그러나 스코틀랜드 상인들은 스웨덴 상품을 자주 운송하고 있어 북대서양 봉쇄 시도가 대부분 무의미해지고 있습니다. 스코틀랜드는 다리엔이라는 중요한 식민지를 점령하고 있어, 스코틀랜드 상인들은 남아메리카를 돌아 수천 마일을 이동하지 않고도 대서양에서 태평양으로 상품을 운송할 수 있습니다. 스코틀랜드는 태평양으로 빠르게 상품을 선적할 수 있는 이 고유한 능력으로 인해, 환태평양 지역에 빠르게 정착할 수 있었으며 이 지역의 다른 주요 무역 거점에도 식민지를 설립할 수 있었습니다.<br>‼️침략자 행동을 완전히 생략할 수 있는 정령은 이 적대국을 상대하기가 쉬울 것입니다.<br>‼️해안 지역의 도시 건설을 막는 것이 어려운 정령(고요한 안개의 장막 등)은 이 적대국을 상대하기가 어려울 것입니다.<br>‼️이 적대국이 D 섬보드에 있다면, 해안 지역이면서 습지인 지역이 2개가 있어 게임의 균형을 해칠 수 있습니다" },
+      { name: "스웨덴 왕국", desc: "추운 북방의 용맹한 군세를 자랑합니다." },
+      { name: "잉글랜드 왕국", desc: "해양 패권을 장악한 강력한 제국입니다." },
+      { name: "브란덴부르크-프로이센 왕국", desc: "규율과 질서를 중시하는 군사 강국입니다." },
+      { name: "합스부르크 채굴 탐험대", desc: "자원 확보를 목적으로 섬에 접근합니다." },
+      { name: "러시아 차르국", desc: "광대한 영토와 냉혹한 전술을 가진 강적입니다." }
+    ];
 
-  const enemies = [
-    "프랑스 왕국","합스부르크 군주국","스코틀랜드 왕국","스웨덴 왕국",
-    "잉글랜드 왕국","브란덴부르크-프로이센 왕국","합스부르크 채굴 탐험대","러시아 차르국"
-  ];
+    function generate(type) {
+      const resultBox = document.getElementById('result');
+      const descBox = document.getElementById('description');
+      let output = "";
+      let desc = "";
 
-  const enemyInfo = {
-    "잉글랜드 왕국": "도시를 빠르게 건설하지만 방어가 약합니다.",
-    "프랑스 왕국": "정찰 후 강력한 공격을 가합니다.",
-    "러시아 차르국": "느리지만 한 번에 큰 피해를 줍니다.",
-    "스코틀랜드 왕국": "‼️해안 지역의 도시 건설을 막는 것이 어려운 정령(고요한 안개의 장막 등)은 이 적대국을 상대하기가 어려울 것입니다.‼️이 적대국이 D 섬보드에 있다면, 해안 지역이면서 습지인 지역이 2개가 있어 게임의 균형을 해칠 수 있습니다"
-    // 👉 여기도 설명을 점점 추가해나가면 돼!
-  };
+      if (type === 'scenario') {
+        const s = scenarios[Math.floor(Math.random() * scenarios.length)];
+        output = `🎭 시나리오: ${s.name}`;
+        desc = s.desc;
+      } else if (type === 'enemy') {
+        const e = enemies[Math.floor(Math.random() * enemies.length)];
+        output = `⚔️ 적대국: ${e.name}`;
+        desc = e.desc;
+      } else {
+        const s = scenarios[Math.floor(Math.random() * scenarios.length)];
+        const e = enemies[Math.floor(Math.random() * enemies.length)];
+        output = `🎭 시나리오: ${s.name}<br>⚔️ 적대국: ${e.name}`;
+        desc = `${s.desc}<br><br>${e.desc}`;
+      }
 
-  function randomize() {
-    const mode = Math.floor(Math.random() * 3);
-    let resultHTML = "";
-
-    if (mode === 0) {
-      const s = rand(scenarios);
-      resultHTML = `🎯 유형: 시나리오<br>📜 시나리오: ${s}<br><br>📘 설명: ${scenarioInfo[s] || "정보가 없습니다."}`;
-    } else if (mode === 1) {
-      const e = rand(enemies);
-      resultHTML = `🎯 유형: 적대국<br>⚔️ 적대국: ${e}<br><br>⚙️ 설명: ${enemyInfo[e] || "정보가 없습니다."}`;
-    } else {
-      const s = rand(scenarios);
-      const e = rand(enemies);
-      resultHTML = `
-        🎯 유형: 둘 다<br>
-        📜 시나리오: ${s}<br>
-        ⚔️ 적대국: ${e}<br><br>
-        📘 시나리오 설명: ${scenarioInfo[s] || "정보가 없습니다."}<br>
-        ⚙️ 적대국 설명: ${enemyInfo[e] || "정보가 없습니다."}
-      `;
+      resultBox.innerHTML = `<h2>${output}</h2>`;
+      descBox.innerHTML = desc;
     }
-
-    document.getElementById("result").innerHTML = resultHTML;
-  }
-
-  function rand(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-</script>
-
+  </script>
 </body>
 </html>
