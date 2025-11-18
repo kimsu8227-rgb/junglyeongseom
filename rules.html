@@ -7,63 +7,82 @@
 <style>
   body {
     font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-    background: linear-gradient(135deg, #1c2e4a, #3a7bd5);
-    color: #fff;
+    background: #f4f9f4; /* 🌿 연한 민트-화이트 */
+    color: #2b4b2b;      /* 진초록 */
     text-align: center;
     margin: 0;
     padding: 20px;
   }
+
   h1 {
     font-size: 1.8rem;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: #1f3d1f; /* 더 진한 초록 */
   }
+
   input {
-    padding: 10px;
+    padding: 12px;
     width: 80%;
     max-width: 400px;
-    border: none;
-    border-radius: 10px;
+    border: 2px solid #8ccf8c; /* 초록 테두리 */
+    border-radius: 12px;
     font-size: 1rem;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    background: #ffffff;
+    color: #333;
   }
+
   .list {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
   }
+
   .rule {
-    background: rgba(255,255,255,0.1);
-    padding: 15px;
-    border-radius: 10px;
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 12px;
     width: 90%;
-    max-width: 600px;
+    max-width: 650px;
     text-align: left;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.25s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border-left: 6px solid #7bbe7b; /* 초록 포인트 라인 */
   }
+
   .rule:hover {
-    background: rgba(255,255,255,0.2);
-    transform: scale(1.02);
+    background: #f0fff0; /* 은은한 연녹색 */
+    transform: scale(1.01);
   }
+
   .back {
-    margin-top: 30px;
-    background-color: #fff;
-    color: #333;
+    margin-top: 35px;
+    background-color: #7bbe7b;
+    color: #fff;
     border: none;
     border-radius: 12px;
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: 0.2s;
+  }
+
+  .back:hover {
+    background-color: #6aac6a;
   }
 </style>
 </head>
+
 <body>
 
 <h1>📖 정령섬 세부 규칙 검색</h1>
+
 <input type="text" id="searchInput" placeholder="예: 공포, 건설, 승리 조건 등">
+
 <div class="list" id="ruleList"></div>
 
 <button class="back" onclick="window.location.href='index.html'">← 랜더마이저로 돌아가기</button>
@@ -71,9 +90,9 @@
 <script>
 const rules = [
   { title: "🧞세상을 흠뻑 적시는 폭우", desc: "두 번째 타고난 능력으로 섬에서 현신을 제거한다면, 그 현신은 파괴된 현신과 동일하게 간주<br>그러므로, '타오르는 부활' 주요 능력으로 되돌아올 수 있습니다.<br>파괴를 방지하는 효과로는 이를 방지할 수 없도록 “파괴”라는 용어를 사용하지 않았습니다." },
-  { title: "🧞보이지 않는 길을 찾는 자", desc: " • 현신을 놓는 성장 선택을 사용해서 '사정 거리 +1' 트랙 효과를 공개할 때, 이 효과는 그 현신을 놓은 다음 적용<br>• 침략자/다한이 실제로 파괴된 다음에만 “죽은 이들에 대한 책임감”이 발동됩니다. 어떤 효과로 인해 이 파괴가 방지되었다면, 이 특수 규칙은 발동되지 않습니다.<br>• '길을 여는 자'를 사용해서 지역 한 곳을 바다에 인접하게 만들었다면, 그 지역은 해안 지역이 됩니다.<br>• 맹수 아이콘 무시한다고 해서 이 정령의 균형을 해치지 않음. <br>• 현신 트랙에서 현신이 놓여 있는 특정 칸으로 가는 길이 여러 갈래가 있더라도, 그 혜택을 두 번 얻을 수는 없음" },
+  { title: "🧞보이지 않는 길을 찾는 자", desc: "• 현신을 놓는 성장 선택을 사용해서 '사정 거리 +1' 트랙 효과를 공개할 때, 이 효과는 그 현신을 놓은 다음 적용<br>• 침략자/다한이 실제로 파괴된 다음에만 “죽은 이들에 대한 책임감”이 발동됩니다.<br>• '길을 여는 자'를 사용해서 지역 한 곳을 바다에 인접하게 만들었다면, 그 지역은 해안 지역이 됩니다.<br>• 맹수 아이콘 무시한다고 해서 이 정령의 균형을 해치지 않음.<br>• 현신 트랙에서 동일 칸에 도달하는 경로가 여러 개여도 효과는 1번만 적용됩니다." },
   { title: "탐험 규칙", desc: "정찰 후 탐험 단계에서 새로운 지역에 침략자 토큰이 배치됩니다." },
-  { title: "🔱스코틀랜드 왕국: 찰스 2세의 아들, 제임스 7세 (스튜어트 가문)", desc: "스코틀랜드는 브리튼섬 북부에서 항상 균형을 유지해야 했습니다. 제임스 7세는, 남쪽에 위치한 규모가 더 크고 인구가 더 많은 잉글랜드 왕국과 북해 건너편의 스웨덴 왕국, 그리고 유럽 본토의 강력한 프랑스 왕국 사이에서 이 역할을 잘 수행하고 있었습니다. 최근, 파나마 지협에 있는 다리엔을 성공적으로 식민지화해서 그 성과가 조명받고 있기도 했습니다. 잉글랜드, 스웨덴, 스페인, 프랑스 등의 주요 해양 강국들 간의 불신과 경쟁 덕분에 스코틀랜드는 국제 무역의 주요 중개자로 부상했습니다.<br>현재 스코틀랜드 왕국은 스페인, 프랑스, 잉글랜드와 함께 불안정한 동맹을 맺고 스웨덴, 합스부르크, 프로이센 왕국의 북유럽 동맹에 맞서고 있습니다. 그러나 스코틀랜드 상인들은 스웨덴 상품을 자주 운송하고 있어 북대서양 봉쇄 시도가 대부분 무의미해지고 있습니다." },
+  { title: "🔱스코틀랜드 왕국: 제임스 7세", desc: "브리튼 북부의 무역 강국으로 여러 세력 사이에서 균형을 유지합니다.<br>다리엔 식민지를 기반으로 대서양–태평양을 연결하는 주요 무역 루트를 확보했습니다.<br>여러 국가와 교류해 봉쇄가 거의 통하지 않는 유연한 적입니다." },
   { title: "승리 조건", desc: "공포 단계 3 달성 + 모든 도시 제거 시 즉시 승리합니다." },
   { title: "패배 조건", desc: "섬의 오염이 최대치에 도달하거나 정령의 존재가 사라지면 패배합니다." },
   { title: "성장 단계", desc: "정령은 자신의 성장 단계에서 에너지를 얻거나 새로운 힘 카드를 가져올 수 있습니다." },
@@ -105,4 +124,3 @@ renderList();
 
 </body>
 </html>
-
