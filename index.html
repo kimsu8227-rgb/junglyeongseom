@@ -34,6 +34,19 @@
     button:hover {
       background-color: #357abd;
     }
+    .note-box {
+  margin-top: 20px;
+  background: #f0fff4;
+  padding: 15px;
+  border-radius: 12px;
+  width: 85%;
+  max-width: 500px;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+  color: #2b4b2b;
+  border-left: 5px solid #7bbe7b;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
 
     .result-box {
       margin-top: 30px;
@@ -75,7 +88,12 @@
     <h2 id="title">결과가 여기에 표시됩니다</h2>
     <div class="description" id="description"></div>
   </div>
-
+<div class="note-box">
+  <strong>📌 게임 준비 규칙</strong><br>
+  게임 준비 중, 각각의 섬 보드에 맹수 1개와 역병 1개를 놓습니다.<br>
+  맹수는 <strong>게임 준비 아이콘이 없는 지역 중 번호가 가장 낮은 지역</strong>에 놓고,<br>
+  역병은 <strong>2번 지역(도시가 있는 지역)</strong>에 놓습니다.
+</div>
   <script>
     const scenarios = [
       { name: "다한의 저항", desc: "섬의 방어를 위한 첫 번째 시도. 정령들이 힘을 모아 적을 저지해야 합니다." },
