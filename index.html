@@ -52,7 +52,42 @@
   margin-left: auto;
   margin-right: auto;
 }
+.timer-box {
+  margin-top: 20px;
+  background: rgba(255,255,255,0.15);
+  padding: 20px;
+  border-radius: 15px;
+  width: 80%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
 
+#timerDisplay {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #fff;
+  letter-spacing: 3px;
+}
+
+.timer-buttons button {
+  margin: 0 8px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #333;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+  transition: 0.2s;
+}
+
+.timer-buttons button:hover {
+  transform: scale(1.05);
+  background: #ececec;
+}
     .result-box {
       margin-top: 30px;
       background: white;
@@ -88,7 +123,13 @@
     <button onclick="randomize()">🎲 랜덤 돌리기</button>
     <button onclick="location.href='rules.html'">⚙️ 세부 규칙 검색</button>
   </div>
-
+<div class="timer-box">
+  <div id="timerDisplay">07:00</div>
+  <div class="timer-buttons">
+    <button onclick="startTimer()">⏱ 시작</button>
+    <button onclick="resetTimer()">🔄 초기화</button>
+  </div>
+</div>
   <div class="result-box">
     <h2 id="title">결과가 여기에 표시됩니다</h2>
     <div class="description" id="description"></div>
@@ -101,34 +142,63 @@
 </div>
   <script>
     const scenarios = [
-      { name: "다한의 저항", desc: "섬의 방어를 위한 첫 번째 시도. 정령들이 힘을 모아 적을 저지해야 합니다." },
+      { name: "다한의 저항⭐⭐⭐⭐", desc: "섬의 방어를 위한 첫 번째 시도. 정령들이 힘을 모아 적을 저지해야 합니다." },
       { name: "식민지화 물결", desc: "침략자들이 해안을 따라 상륙을 시도합니다. 각 정령은 협력해야 합니다." },
       { name: "운명이 펼쳐지다", desc: "운명의 실이 얽히며 섬의 정체가 드러납니다." },
-      { name: "해안 사수", desc: "바다를 통해 침략이 시작됩니다. 해안 지역이 중요합니다." },
-      { name: "두 번째 공격", desc: "한 번 물러난 적이 재정비하여 다시 돌아왔습니다." },
-      { name: "기습 공격", desc: "예상치 못한 방향에서의 기습. 방심은 금물입니다." },
+      { name: "해안 사수⭐⭐", desc: "바다를 통해 침략이 시작됩니다. 해안 지역이 중요합니다." },
+      { name: "두 번째 공격☆", desc: "한 번 물러난 적이 재정비하여 다시 돌아왔습니다." },
+      { name: "기습 공격☆", desc: "예상치 못한 방향에서의 기습. 방심은 금물입니다." },
       { name: "다양한 지형", desc: "섬의 각 지역이 서로 다른 도전을 제공합니다." },
       { name: "거대한 강", desc: "강이 전장의 중심이 됩니다." },
       { name: "원소의 부름", desc: "정령들의 본질적인 힘이 깨어납니다." },
       { name: "비열한 도적질", desc: "침략자들이 자원을 약탈합니다." },
-      { name: "섬의 심장을 지켜라", desc: "섬의 중심부가 공격받습니다." },
-      { name: "공포의 의식", desc: "침략자들이 공포를 일으키는 의식을 준비합니다." },
-      { name: "오랫동안 잊혀졌던 능력", desc: "옛 정령의 힘이 다시 깨어납니다." },
-      { name: "파멸의 불꽃 소환 의식", desc: "침략자들이 강력한 불꽃을 소환하려 합니다." },
+      { name: "섬의 심장을 지켜라☆", desc: "섬의 중심부가 공격받습니다." },
+      { name: "공포의 의식⭐⭐⭐", desc: "침략자들이 공포를 일으키는 의식을 준비합니다." },
+      { name: "오랫동안 잊혀졌던 능력⭐", desc: "옛 정령의 힘이 다시 깨어납니다." },
+      { name: "파멸의 불꽃 소환 의식⭐⭐⭐", desc: "침략자들이 강력한 불꽃을 소환하려 합니다." },
       { name: "정령의 다양성", desc: "서로 다른 정령의 조합이 강력한 힘을 발휘합니다." }
     ];
 
     const enemies = [
-      { name: "프랑스 왕국", desc: "플랜테이션 식민지를 빠르게 확장하며 마을 개발이 매우 빠른 적입니다. 탐험가들이 적극적으로 움직여 초반 압박이 강합니다.<br>‼️'노예반란' 이벤트카드 : '노예 반란' 카드를 이벤트 덱 맨 위의 카드 2장과 함께 섞은 후에 이벤트 덱 맨 아래에서 카드 2장을 꺼내 맨 위에 얹습니다.<br>‼️쉬운 정령: 마을을 파괴하는 데 수월한 정령<br>‼️어려운 정령: 마을 파괴에 능하지 못한 정령" },
+      { name: "프랑스 왕국⭐⭐", desc: "플랜테이션 식민지를 빠르게 확장하며 마을 개발이 매우 빠른 적입니다. 탐험가들이 적극적으로 움직여 초반 압박이 강합니다.<br>‼️'노예반란' 이벤트카드 : '노예 반란' 카드를 이벤트 덱 맨 위의 카드 2장과 함께 섞은 후에 이벤트 덱 맨 아래에서 카드 2장을 꺼내 맨 위에 얹습니다.<br>‼️쉬운 정령: 마을을 파괴하는 데 수월한 정령<br>‼️어려운 정령: 마을 파괴에 능하지 못한 정령" },
       { name: "합스부르크 군주국", desc: "금속과 채굴을 통해 자원 우위를 점합니다." },
       { name: "스코틀랜드 왕국", desc: "무역을 기반으로 빠르게 확장하며 봉쇄가 잘 통하지 않는 적이며, 여러 세력과 거래해 행동 패턴이 예측하기 어렵습니다.<br>‼️D 섬보드 : 해안 지역이면서 습지인 지역이 2개가 있어 게임의 균형을 해칠 수 있음<br>‼️쉬운 정령: 침략자 행동을 완전히 생략할 수 있는 정령<br>‼️어려운 정령: 해안 지역의 도시 건설을 막는 것이 어려운 정령" },
-      { name: "스웨덴 왕국", desc: "북방의 강력한 군세를 자랑합니다." },
-      { name: "잉글랜드 왕국", desc: "해양 패권을 자랑하는 제국입니다." },
-      { name: "브란덴부르크-프로이센 왕국", desc: "규율 있고 단단한 군대를 가진 국가입니다." },
+      { name: "스웨덴 왕국⭐", desc: "북방의 강력한 군세를 자랑합니다." },
+      { name: "잉글랜드 왕국⭐", desc: "해양 패권을 자랑하는 제국입니다." },
+      { name: "브란덴부르크-프로이센 왕국⭐", desc: "규율 있고 단단한 군대를 가진 국가입니다." },
       { name: "합스부르크 채굴 탐험대", desc: "자원 확보를 위해 섬에 접근합니다." },
       { name: "러시아 차르국", desc: "광대한 영토에서 오는 압도적 물량을 보유합니다." }
     ];
+let timer;
+let timeLeft = 420; // 7분 = 420초
 
+function updateTimerDisplay() {
+  const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+  const seconds = String(timeLeft % 60).padStart(2, "0");
+  document.getElementById("timerDisplay").innerText = `${minutes}:${seconds}`;
+}
+
+function startTimer() {
+  if (timer) return; // 중복 실행 방지
+
+  timer = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      timer = null;
+      alert("⏳ 시간이 끝났습니다!");
+      return;
+    }
+    timeLeft -= 1;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timer);
+  timer = null;
+  timeLeft = 420;
+  updateTimerDisplay();
+}
     function randomize() {
       const mode = Math.floor(Math.random() * 3); // 0=시나리오, 1=적대국, 2=둘 다
       let title = "";
