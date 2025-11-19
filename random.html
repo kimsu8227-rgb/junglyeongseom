@@ -52,42 +52,7 @@
   margin-left: auto;
   margin-right: auto;
 }
-.timer-box {
-  margin-top: 20px;
-  background: rgba(255,255,255,0.15);
-  padding: 20px;
-  border-radius: 15px;
-  width: 80%;
-  max-width: 350px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-}
 
-#timerDisplay {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: #fff;
-  letter-spacing: 3px;
-}
-
-.timer-buttons button {
-  margin: 0 8px;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 10px;
-  background: #ffffff;
-  color: #333;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-  transition: 0.2s;
-}
-
-.timer-buttons button:hover {
-  transform: scale(1.05);
-  background: #ececec;
-}
     .result-box {
       margin-top: 30px;
       background: white;
@@ -123,13 +88,8 @@
     <button onclick="randomize()">🎲 랜덤 돌리기</button>
     <button onclick="location.href='rules.html'">⚙️ 세부 규칙 검색</button>
   </div>
-<div class="timer-box">
-  <div id="timerDisplay">07:00</div>
-  <div class="timer-buttons">
-    <button onclick="startTimer()">⏱ 시작</button>
-    <button onclick="resetTimer()">🔄 초기화</button>
-  </div>
-</div>
+
+
   <div class="result-box">
     <h2 id="title">결과가 여기에 표시됩니다</h2>
     <div class="description" id="description"></div>
@@ -169,36 +129,7 @@
       { name: "합스부르크 채굴 탐험대", desc: "자원 확보를 위해 섬에 접근합니다." },
       { name: "러시아 차르국", desc: "광대한 영토에서 오는 압도적 물량을 보유합니다." }
     ];
-let timer;
-let timeLeft = 420; // 7분 = 420초
 
-function updateTimerDisplay() {
-  const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
-  const seconds = String(timeLeft % 60).padStart(2, "0");
-  document.getElementById("timerDisplay").innerText = `${minutes}:${seconds}`;
-}
-
-function startTimer() {
-  if (timer) return; // 중복 실행 방지
-
-  timer = setInterval(() => {
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      timer = null;
-      alert("⏳ 시간이 끝났습니다!");
-      return;
-    }
-    timeLeft -= 1;
-    updateTimerDisplay();
-  }, 1000);
-}
-
-function resetTimer() {
-  clearInterval(timer);
-  timer = null;
-  timeLeft = 420;
-  updateTimerDisplay();
-}
     function randomize() {
       const mode = Math.floor(Math.random() * 3); // 0=시나리오, 1=적대국, 2=둘 다
       let title = "";
