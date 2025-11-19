@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정령섬 타이머</title>
+
+<style>
+  body {
+    font-family:'Pretendard','Noto Sans KR',sans-serif;
+    background:#0c1b33;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+  }
+
+  #timerDisplay {
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+    transition: 0.2s;
+  }
+
+  .btn {
+    background:white;
+    border:none;
+    padding:15px 25px;
+    font-size:1.2rem;
+    border-radius:12px;
+    margin:0 10px;
+    cursor:pointer;
+    font-weight:700;
+    color:#222;
+  }
+
+  .btn:hover {
+    transform: scale(1.1);
+  }
+
+  .top-btn {
+    position:fixed;
+    top:20px;
+    left:20px;
+    padding:10px 18px;
+    font-size:0.9rem;
+  }
+</style>
+</head>
+
+<body>
+
+<button class="btn top-btn" onclick="location.href='index.html'">← 홈으로</button>
+
+<div id="timerDisplay">07:00</div>
+
+<div>
+  <button class="btn" onclick="startTimer()">⏱ 시작</button>
+  <button class="btn" onclick="resetTimer()">🔄 초기화</button>
+</div>
+
+<script>
+let timer = null;
+let timeLeft = 420;
+
+// 알람음 생성 (웹 기본 Beep)
+function playBeep() {
+  const osc = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = osc.createOscillator();
+  oscillator.frequency.value = 800;
+  oscillator.connect(osc.destination);
+  oscillator.start();
+  oscillator.stop(osc.currentTime + 0.2);
+}
+
+function updateDisplay() {
+  const min = String(Math.floor(timeLeft/60)).padStart(2,"0");
+  const sec = String(timeLeft%60).padStart(2,"0");
+
+  const display = document.getElementById("timerDisplay");
+  display.textContent = `${min}:${sec}`;
+
+  if(timeLeft <= 60 && timeLeft > 30) {
+    display.style.color = "#ffcc00"; // 1분 남음 → 노란색
+  }
+  else if(timeLeft <= 30) {
+    display.style.color = "#ff4444"; // 30초 이하 → 빨간색 강조
+    display.style.transform = "scale(1.1)";
+  } else {
+    display.style.color = "white";
+    display.style.transform = "scale(1)";
+  }
+}
+
+function startTimer() {
+  if(timer) return;
+  timer = setInterval(() => {
+    timeLeft--;
+    updateDisplay();
+
+    if(timeLeft === 60) playBeep();    // 1분 알림
+    if(timeLeft === 0){
+      playBeep(); playBeep();          // 종료 알림
+      clearInterval(timer);
+      timer = null;
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timer);
+  timer = null;
+  timeLeft = 420;
+  document.getElementById("timerDisplay").style.color="white";
+  updateDisplay();
+}
+
+updateDisplay();
+</script>
+
+</body>
+</html>
