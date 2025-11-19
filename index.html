@@ -8,25 +8,26 @@
 <style>
   body {
     font-family: 'Pretendard','Noto Sans KR',sans-serif;
-    background: url('https://i.imgur.com/LV7Rk8U.png'); /* 고급 나무패턴 */
-    background-size: cover;
-    background-position: center;
     margin: 0;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
     text-align: center;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding-top: 50px;
+
+    /* 🌳 나무 느낌 그라데이션 + 텍스처 느낌 */
+    background: linear-gradient(135deg, #5b3d23, #2e1f13);
+    background-size: cover;
+    color: #f5e8c9;
   }
 
   h1 {
-    font-size: 2.2rem;
-    color: #fff7dd;
-    text-shadow: 0 3px 6px rgba(0,0,0,0.4);
-    margin-bottom: 40px;
+    font-size: 2.3rem;
+    margin-bottom: 35px;
     font-weight: 900;
-    letter-spacing: 1px;
+    color: #ffecc2;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.4);
   }
 
   .menu-container {
@@ -34,27 +35,27 @@
     flex-direction: column;
     gap: 20px;
     width: 80%;
-    max-width: 340px;
+    max-width: 350px;
   }
 
+  /* 🌿 나무판자 느낌 버튼 (이미지 없이 CSS로 구현!) */
   .menu-btn {
-    background: url('https://i.imgur.com/3yW8ZrA.png'); /* 나무조각 텍스처 버튼 */
-    background-size: cover;
-    background-position: center;
+    background: linear-gradient(180deg, #d2a671, #b9854d);
     padding: 18px 0;
-    border-radius: 15px;
-    color: #fff9e6;
+    border-radius: 18px;
+    border: 3px solid rgba(255,255,255,0.25);
     font-size: 1.25rem;
     font-weight: 800;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.6);
     cursor: pointer;
-    border: 2px solid rgba(255,255,255,0.2);
+    color: #4b2f15;
+    text-shadow: 0 2px 3px rgba(255,255,255,0.3);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
     transition: 0.2s;
   }
 
   .menu-btn:hover {
-    transform: translateY(-4px) scale(1.04);
-    filter: brightness(1.15);
+    transform: translateY(-4px) scale(1.03);
+    filter: brightness(1.1);
   }
 </style>
 </head>
