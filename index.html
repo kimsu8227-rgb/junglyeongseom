@@ -3,56 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>정령섬 메인</title>
+<title>정령섬 도우미</title>
 
 <style>
   body {
     font-family: 'Pretendard','Noto Sans KR',sans-serif;
-    background: linear-gradient(135deg, #1c2e4a, #3a7bd5);
-    color: #fff;
-    text-align: center;
-    height: 100vh;
+    background: linear-gradient(135deg, #a8e6a3, #4dbd82);
     margin: 0;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    padding-top: 20px;
+    color: #1c3d1c;
+    text-align: center;
+  }
+
+  .logo {
+    width: 85%;
+    max-width: 330px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    margin-bottom: 25px;
   }
 
   h1 {
-    font-size: 2.2rem;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
+    font-size: 2.0rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    color: #0f2e0f;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.15);
   }
 
-  .menu-btn {
-    width: 220px;
-    background: #ffffff;
-    color: #333;
-    padding: 18px 0;
-    font-size: 1.1rem;
-    margin: 12px 0;
-    border-radius: 15px;
-    border: none;
-    cursor: pointer;
-    font-weight: 700;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: 0.2s;
+  .menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 85%;
+    max-width: 350px;
+    margin-bottom: 40px;
   }
-  .menu-btn:hover {
-    transform: scale(1.07);
-    background: #e8e8e8;
+
+  .menu-card {
+    background: #ffffff;
+    padding: 18px 15px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s;
+    border-left: 8px solid #4dbd82;
+  }
+
+  .menu-card:hover {
+    transform: translateY(-4px) scale(1.04);
+    background: #f4fff4;
   }
 </style>
 </head>
 
 <body>
 
-<h1>🌊 정령섬 도우미</h1>
+<!-- 🔥 정령섬 이미지 추가 -->
+<img class="logo" src="/mnt/data/6d37514a-5a24-47a5-a559-e83feaeebcf7.png">
 
-<button class="menu-btn" onclick="location.href='timer.html'">⏱ 타이머</button>
-<button class="menu-btn" onclick="location.href='random.html'">🎲 랜더마이저</button>
-<button class="menu-btn" onclick="location.href='rules.html'">📖 규칙 검색</button>
+<h1>🌿 정령섬 도우미</h1>
+
+<div class="menu-container">
+  <div class="menu-card" onclick="location.href='timer.html'">⏱ 타이머</div>
+  <div class="menu-card" onclick="location.href='random.html'">🎲 랜더마이저</div>
+  <div class="menu-card" onclick="location.href='rules.html'">📖 규칙 검색</div>
+</div>
 
 </body>
 </html>
