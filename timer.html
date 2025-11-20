@@ -15,7 +15,6 @@
     justify-content: center;
     align-items: center;
 
-    /* 밝은 민트 배경 */
     background: #e9fef4;
     color: #1f4a36;
   }
@@ -29,18 +28,40 @@
   #timer {
     font-size: 6rem;
     font-weight: 900;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     transition: 0.3s ease;
+  }
+
+  .time-set-box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+  }
+
+  .time-label {
+    font-weight: 700;
+    margin-left: 4px;
+  }
+
+  .time-input {
+    width: 70px;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #9cd9c1;
+    text-align: center;
   }
 
   .buttons {
     display: flex;
     gap: 15px;
-    margin-top: 15px;
+    margin-bottom: 20px;
   }
 
   button {
-    padding: 10px 20px;
+    padding: 10px 22px;
     font-size: 1.2rem;
     font-weight: 700;
     border: none;
@@ -57,26 +78,15 @@
     transform: translateY(-2px);
   }
 
+  .set-btn {
+    margin-top: 5px;
+  }
+
   .back {
     position: fixed;
     top: 15px;
     left: 20px;
     background: #a5e6c5;
-  }
-
-  .set-box {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .time-input {
-    width: 70px;
-    padding: 8px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #9cd9c1;
-    margin: 0 5px;
-    text-align: center;
   }
 </style>
 </head>
@@ -87,13 +97,19 @@
 
 <h1>⏱ 정령섬 라운드 타이머</h1>
 
-<div class="set-box">
-  <input type="number" id="setMin" class="time-input" placeholder="분">
-  <input type="number" id="setSec" class="time-input" placeholder="초">
-  <button onclick="setCustomTime()">설정하기</button>
+<div id="timer">07:00</div>
+
+<!-- 🔢 시간 입력 부분 -->
+<div class="time-set-box">
+  <input type="number" id="setMin" class="time-input" placeholder="0">
+  <span class="time-label">분</span>
+
+  <input type="number" id="setSec" class="time-input" placeholder="0">
+  <span class="time-label">초</span>
 </div>
 
-<div id="timer">07:00</div>
+<!-- ⭐ 설정 버튼은 아래에! -->
+<button class="set-btn" onclick="setCustomTime()">설정하기</button>
 
 <div class="buttons">
   <button onclick="startTimer()">시작</button>
@@ -110,7 +126,7 @@
 </audio>
 
 <script>
-  let defaultTime = 420;  // 👈 기본 설정 시간
+  let defaultTime = 420;  // 기본값 7분
   let time = defaultTime;
   let timerInterval;
 
@@ -127,7 +143,6 @@
   function setCustomTime() {
     let min = parseInt(document.getElementById("setMin").value) || 0;
     let sec = parseInt(document.getElementById("setSec").value) || 0;
-
     let newTime = min * 60 + sec;
 
     if (newTime <= 0) {
@@ -148,17 +163,16 @@
       if (time <= 0) {
         clearInterval(timerInterval);
         timerInterval = null;
-        alertEnd.play();
         timerDisplay.style.color = "#ff0000";
+        alertEnd.play();
         return;
       }
 
-      // 1분 전
       if (time === 60) {
         timerDisplay.style.color = "#be4524";
         alert1min.play();
       }
-      // 30초 전
+
       if (time === 30) {
         timerDisplay.style.color = "#c91c1c";
       }
