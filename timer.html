@@ -12,11 +12,11 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 
     background: #e9fef4;
     color: #1f4a36;
+    padding-top: 70px;
   }
 
   h1 {
@@ -25,24 +25,52 @@
     font-weight: 800;
   }
 
+  /* 🔹 타이머 영역 */
+  .timer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 45px;   /* 설정 영역과 거리 충분히! */
+  }
+
   #timer {
     font-size: 6rem;
     font-weight: 900;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     transition: 0.3s ease;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 15px;
+  }
+
+  /* 🔹 설정 영역 */
+  .setting-box {
+    margin-top: 10px;
+    padding: 20px 25px;
+    background: #dff8eb;
+    border-radius: 18px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  .setting-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
   }
 
   .time-set-box {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
-    margin-bottom: 25px;
-    font-size: 1.1rem;
+    margin-bottom: 15px;
+    justify-content: center;
   }
 
   .time-label {
     font-weight: 700;
-    margin-left: 4px;
   }
 
   .time-input {
@@ -52,12 +80,7 @@
     border-radius: 8px;
     border: 1px solid #9cd9c1;
     text-align: center;
-  }
-
-  .buttons {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
+    background: #fff;
   }
 
   button {
@@ -78,10 +101,6 @@
     transform: translateY(-2px);
   }
 
-  .set-btn {
-    margin-top: 5px;
-  }
-
   .back {
     position: fixed;
     top: 15px;
@@ -97,26 +116,32 @@
 
 <h1>⏱ 정령섬 라운드 타이머</h1>
 
-<div id="timer">07:00</div>
+<!-- 🔥 타이머 영역 -->
+<div class="timer-box">
+  <div id="timer">07:00</div>
 
-<!-- 🔢 시간 입력 부분 -->
-<div class="time-set-box">
-  <input type="number" id="setMin" class="time-input" placeholder="0">
-  <span class="time-label">분</span>
-
-  <input type="number" id="setSec" class="time-input" placeholder="0">
-  <span class="time-label">초</span>
+  <div class="buttons">
+    <button onclick="startTimer()">시작</button>
+    <button onclick="resetTimer()">초기화</button>
+  </div>
 </div>
 
-<!-- ⭐ 설정 버튼은 아래에! -->
-<button class="set-btn" onclick="setCustomTime()">설정하기</button>
+<!-- 🔥 설정 영역 (완전히 분리됨!) -->
+<div class="setting-box">
+  <div class="setting-title">⚙ 시간 설정</div>
 
-<div class="buttons">
-  <button onclick="startTimer()">시작</button>
-  <button onclick="resetTimer()">초기화</button>
+  <div class="time-set-box">
+    <input type="number" id="setMin" class="time-input" placeholder="0">
+    <span class="time-label">분</span>
+
+    <input type="number" id="setSec" class="time-input" placeholder="0">
+    <span class="time-label">초</span>
+  </div>
+
+  <button onclick="setCustomTime()">설정하기</button>
 </div>
 
-<!-- 알림음 -->
+<!-- 🔔 알림음 -->
 <audio id="alert1min">
   <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg">
 </audio>
@@ -126,7 +151,7 @@
 </audio>
 
 <script>
-  let defaultTime = 420;  // 기본값 7분
+  let defaultTime = 420; 
   let time = defaultTime;
   let timerInterval;
 
