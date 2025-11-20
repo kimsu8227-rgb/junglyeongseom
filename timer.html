@@ -7,119 +7,176 @@
 
 <style>
   body {
-    font-family:'Pretendard','Noto Sans KR',sans-serif;
-    background:#0c1b33;
-    color:white;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
+    font-family: 'Pretendard','Noto Sans KR',sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* 밝은 민트 배경 */
+    background: #e9fef4;
+    color: #1f4a36;
   }
 
-  #timerDisplay {
-    font-size: 5rem;
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
     font-weight: 800;
-    letter-spacing: 3px;
+  }
+
+  #timer {
+    font-size: 6rem;
+    font-weight: 900;
     margin-bottom: 30px;
+    transition: 0.3s ease;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    background: #c2efd7;
+    color: #1f4a36;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     transition: 0.2s;
   }
 
-  .btn {
-    background:white;
-    border:none;
-    padding:15px 25px;
-    font-size:1.2rem;
-    border-radius:12px;
-    margin:0 10px;
-    cursor:pointer;
-    font-weight:700;
-    color:#222;
+  button:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
   }
 
-  .btn:hover {
-    transform: scale(1.1);
+  .back {
+    position: fixed;
+    top: 15px;
+    left: 20px;
+    background: #a5e6c5;
   }
 
-  .top-btn {
-    position:fixed;
-    top:20px;
-    left:20px;
-    padding:10px 18px;
-    font-size:0.9rem;
+  .set-box {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .time-input {
+    width: 70px;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #9cd9c1;
+    margin: 0 5px;
+    text-align: center;
   }
 </style>
 </head>
 
 <body>
 
-<button class="btn top-btn" onclick="location.href='index.html'">← 홈으로</button>
+<button class="back" onclick="location.href='index.html'">← 메인</button>
 
-<div id="timerDisplay">07:00</div>
+<h1>⏱ 정령섬 라운드 타이머</h1>
 
-<div>
-  <button class="btn" onclick="startTimer()">⏱ 시작</button>
-  <button class="btn" onclick="resetTimer()">🔄 초기화</button>
+<div class="set-box">
+  <input type="number" id="setMin" class="time-input" placeholder="분">
+  <input type="number" id="setSec" class="time-input" placeholder="초">
+  <button onclick="setCustomTime()">설정하기</button>
 </div>
 
+<div id="timer">07:00</div>
+
+<div class="buttons">
+  <button onclick="startTimer()">시작</button>
+  <button onclick="resetTimer()">초기화</button>
+</div>
+
+<!-- 알림음 -->
+<audio id="alert1min">
+  <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg">
+</audio>
+
+<audio id="alertEnd">
+  <source src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg">
+</audio>
+
 <script>
-let timer = null;
-let timeLeft = 420;
+  let defaultTime = 420;  // 👈 기본 설정 시간
+  let time = defaultTime;
+  let timerInterval;
 
-// 알람음 생성 (웹 기본 Beep)
-function playBeep() {
-  const osc = new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = osc.createOscillator();
-  oscillator.frequency.value = 800;
-  oscillator.connect(osc.destination);
-  oscillator.start();
-  oscillator.stop(osc.currentTime + 0.2);
-}
+  const timerDisplay = document.getElementById("timer");
+  const alert1min = document.getElementById("alert1min");
+  const alertEnd = document.getElementById("alertEnd");
 
-function updateDisplay() {
-  const min = String(Math.floor(timeLeft/60)).padStart(2,"0");
-  const sec = String(timeLeft%60).padStart(2,"0");
-
-  const display = document.getElementById("timerDisplay");
-  display.textContent = `${min}:${sec}`;
-
-  if(timeLeft <= 60 && timeLeft > 30) {
-    display.style.color = "#ffcc00"; // 1분 남음 → 노란색
+  function updateDisplay() {
+    let m = String(Math.floor(time / 60)).padStart(2,"0");
+    let s = String(time % 60).padStart(2,"0");
+    timerDisplay.textContent = `${m}:${s}`;
   }
-  else if(timeLeft <= 30) {
-    display.style.color = "#ff4444"; // 30초 이하 → 빨간색 강조
-    display.style.transform = "scale(1.1)";
-  } else {
-    display.style.color = "white";
-    display.style.transform = "scale(1)";
-  }
-}
 
-function startTimer() {
-  if(timer) return;
-  timer = setInterval(() => {
-    timeLeft--;
-    updateDisplay();
+  function setCustomTime() {
+    let min = parseInt(document.getElementById("setMin").value) || 0;
+    let sec = parseInt(document.getElementById("setSec").value) || 0;
 
-    if(timeLeft === 60) playBeep();    // 1분 알림
-    if(timeLeft === 0){
-      playBeep(); playBeep();          // 종료 알림
-      clearInterval(timer);
-      timer = null;
+    let newTime = min * 60 + sec;
+
+    if (newTime <= 0) {
+      alert("1초 이상 입력해줘!");
+      return;
     }
-  }, 1000);
-}
 
-function resetTimer() {
-  clearInterval(timer);
-  timer = null;
-  timeLeft = 420;
-  document.getElementById("timerDisplay").style.color="white";
+    defaultTime = newTime;
+    time = newTime;
+    timerDisplay.style.color = "#1f4a36";
+    updateDisplay();
+  }
+
+  function startTimer() {
+    if (timerInterval) return;
+
+    timerInterval = setInterval(() => {
+      if (time <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        alertEnd.play();
+        timerDisplay.style.color = "#ff0000";
+        return;
+      }
+
+      // 1분 전
+      if (time === 60) {
+        timerDisplay.style.color = "#be4524";
+        alert1min.play();
+      }
+      // 30초 전
+      if (time === 30) {
+        timerDisplay.style.color = "#c91c1c";
+      }
+
+      time--;
+      updateDisplay();
+    }, 1000);
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    time = defaultTime;
+    timerDisplay.style.color = "#1f4a36";
+    updateDisplay();
+  }
+
   updateDisplay();
-}
-
-updateDisplay();
 </script>
 
 </body>
