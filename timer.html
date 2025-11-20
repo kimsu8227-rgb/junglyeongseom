@@ -9,20 +9,35 @@
   body {
     font-family: 'Pretendard','Noto Sans KR',sans-serif;
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    background: #e9fef4;
-    color: #1f4a36;
     padding-top: 70px;
+
+    /* 🌳 인덱스 메인과 유사한 밝은 우드톤 */
+    background: linear-gradient(135deg, #f6e9d0, #f2d9b1);
+    background-size: cover;
+
+    /* 은은한 나무결 패턴 */
+    background-image:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,0.15) 0px,
+        rgba(255,255,255,0.15) 2px,
+        rgba(0,0,0,0.04) 2px,
+        rgba(0,0,0,0.04) 4px
+      );
+
+    color: #4b3319; /* 더 진하게 */
   }
 
   h1 {
     font-size: 2rem;
     margin-bottom: 20px;
-    font-weight: 800;
+    font-weight: 900;
+    color: #3b2714; /* 진하게 */
+    text-shadow: 0 2px 4px rgba(255,255,255,0.5);
   }
 
   /* 🔹 타이머 영역 */
@@ -30,28 +45,31 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 45px;   /* 설정 영역과 거리 충분히! */
+    margin-bottom: 40px;
   }
 
   #timer {
     font-size: 6rem;
     font-weight: 900;
     margin-bottom: 25px;
+    color: #3b2714; /* 기본 진한 글씨 */
     transition: 0.3s ease;
   }
 
+  /* 🔹 시작/초기화 */
   .buttons {
     display: flex;
     gap: 15px;
   }
 
-  /* 🔹 설정 영역 */
+  /* 🔹 설정 박스 (우드톤과 매칭되는 부드러운 베이지) */
   .setting-box {
     margin-top: 10px;
     padding: 20px 25px;
-    background: #dff8eb;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(2px);
     border-radius: 18px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     text-align: center;
   }
 
@@ -59,18 +77,16 @@
     font-size: 1.2rem;
     font-weight: 800;
     margin-bottom: 12px;
+    color: #3b2714;
   }
 
+  /* 🔹 입력칸 */
   .time-set-box {
     display: flex;
     gap: 12px;
     align-items: center;
-    margin-bottom: 15px;
     justify-content: center;
-  }
-
-  .time-label {
-    font-weight: 700;
+    margin-bottom: 15px;
   }
 
   .time-input {
@@ -78,34 +94,42 @@
     padding: 8px;
     font-size: 1rem;
     border-radius: 8px;
-    border: 1px solid #9cd9c1;
+    border: 1px solid #c1a078;
     text-align: center;
     background: #fff;
+    color: #3b2714;
   }
 
+  .time-label {
+    font-weight: 800;
+    color: #3b2714;
+  }
+
+  /* 🔹 버튼 스타일 (메인 버튼 느낌 그대로) */
   button {
     padding: 10px 22px;
     font-size: 1.2rem;
-    font-weight: 700;
+    font-weight: 800;
     border: none;
     border-radius: 14px;
     cursor: pointer;
-    background: #c2efd7;
-    color: #1f4a36;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background: linear-gradient(180deg, #fce6c8, #edc89a);
+    color: #4a2f14;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.4);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     transition: 0.2s;
   }
 
   button:hover {
-    filter: brightness(1.08);
+    filter: brightness(1.1);
     transform: translateY(-2px);
   }
 
+  /* 🔙 돌아가기 버튼 */
   .back {
     position: fixed;
     top: 15px;
     left: 20px;
-    background: #a5e6c5;
   }
 </style>
 </head>
@@ -126,14 +150,13 @@
   </div>
 </div>
 
-<!-- 🔥 설정 영역 (완전히 분리됨!) -->
+<!-- 🔥 설정 영역 -->
 <div class="setting-box">
   <div class="setting-title">⚙ 시간 설정</div>
 
   <div class="time-set-box">
     <input type="number" id="setMin" class="time-input" placeholder="0">
     <span class="time-label">분</span>
-
     <input type="number" id="setSec" class="time-input" placeholder="0">
     <span class="time-label">초</span>
   </div>
@@ -141,7 +164,7 @@
   <button onclick="setCustomTime()">설정하기</button>
 </div>
 
-<!-- 🔔 알림음 -->
+<!-- 알림음 -->
 <audio id="alert1min">
   <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg">
 </audio>
@@ -177,7 +200,7 @@
 
     defaultTime = newTime;
     time = newTime;
-    timerDisplay.style.color = "#1f4a36";
+    timerDisplay.style.color = "#3b2714";
     updateDisplay();
   }
 
@@ -211,7 +234,7 @@
     clearInterval(timerInterval);
     timerInterval = null;
     time = defaultTime;
-    timerDisplay.style.color = "#1f4a36";
+    timerDisplay.style.color = "#3b2714";
     updateDisplay();
   }
 
