@@ -47,26 +47,49 @@
     width: 80%;
     max-width: 350px;
   }
+.menu-btn {
+  background: linear-gradient(180deg, #f8e7c8 0%, #e8c89f 100%);
+  padding: 18px 0;
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,0.75);
+  
+  font-size: 1.28rem;
+  font-weight: 800;
+  cursor: pointer;
+  color: #4a2f14;
+  
+  /* 나무결 느낌을 더 은은하게 */
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.3), rgba(0,0,0,0.05)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.12) 0px,
+      rgba(255,255,255,0.12) 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
 
-  /* 밝은 나무판 느낌 버튼 */
-  .menu-btn {
-    background: linear-gradient(180deg, #fce6c8, #edc89a);
-    padding: 18px 0;
-    border-radius: 16px;
-    border: 2px solid rgba(255,255,255,0.7);
-    font-size: 1.3rem;
-    font-weight: 700;
-    cursor: pointer;
-    color: #4a2f14;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.7);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-    transition: 0.2s;
-  }
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.25),      /* 바깥 그림자 */
+    inset 0 2px 4px rgba(255,255,255,0.8), /* 안쪽 하이라이트 */
+    inset 0 -2px 4px rgba(0,0,0,0.1);       /* 안쪽 음영 */
 
-  .menu-btn:hover {
-    transform: translateY(-4px) scale(1.03);
-    filter: brightness(1.08);
-  }
+  transition: 0.18s ease-in-out;
+}
+
+.menu-btn:hover {
+  transform: translateY(-4px);
+  filter: brightness(1.10);
+}
+
+.menu-btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.25),
+    inset 0 1px 3px rgba(0,0,0,0.15);
+  filter: brightness(0.97);
+}
+ 
 </style>
 </head>
 
