@@ -7,61 +7,63 @@
 <style>
   body {
     font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
-    background: #f4f9f4; /* 🌿 연한 민트-화이트 */
-    color: #2b4b2b;      /* 진초록 */
+    background: #fdfaf4; /* 따뜻한 크림톤 */
+    color: #4b3b2a;      /* 차분한 브라운 */
     text-align: center;
     margin: 0;
     padding: 20px;
   }
 
   h1 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-    color: #1f3d1f; /* 더 진한 초록 */
+    font-size: 1.9rem;
+    margin-bottom: 20px;
+    color: #3d2f20; /* 진한 원목 느낌 */
+    font-weight: 700;
   }
 
   input {
     padding: 12px;
     width: 80%;
-    max-width: 400px;
-    border: 2px solid #8ccf8c; /* 초록 테두리 */
-    border-radius: 12px;
+    max-width: 380px;
+    border: 2px solid #d6c2a8; /* 밝은 베이지 */
+    border-radius: 10px;
     font-size: 1rem;
     margin-bottom: 25px;
     background: #ffffff;
-    color: #333;
+    color: #3f3224;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
   }
 
   .list {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
 
   .rule {
     background: #ffffff;
-    padding: 18px;
+    padding: 18px 22px;
     border-radius: 12px;
-    width: 90%;
+    width: 92%;
     max-width: 650px;
     text-align: left;
     cursor: pointer;
-    transition: all 0.25s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    border-left: 6px solid #7bbe7b; /* 초록 포인트 라인 */
+    transition: 0.25s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+    border-left: 6px solid #c8a97e; /* 우드 포인트 라인 */
   }
 
   .rule:hover {
-    background: #f0fff0; /* 은은한 연녹색 */
+    background: #f9f3e8; /* 은은한 크림/우드 하이라이트 */
     transform: scale(1.01);
   }
 
- .back {
+  .back {
     position: fixed;
     top: 15px;
-    left: 30px;
-    background-color: #7bbe7b;
+    left: 25px;
+    background-color: #c8a97e; /* 우드 브라운 버튼 */
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -69,16 +71,15 @@
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
     transition: 0.2s;
-    z-index: 999; /* 다른 요소보다 위에 오도록 */
-}
+    z-index: 999;
+  }
 
-.back:hover {
-    background-color: #6aac6a;
-}
-
-
+  .back:hover {
+    background-color: #b89368;
+    transform: translateY(-2px);
+  }
 </style>
 </head>
 
