@@ -220,7 +220,10 @@ function renderList(filter="") {
     .forEach(r => {
       const div = document.createElement("div");
       div.className = "rule";
-      div.innerHTML = `<strong>${r.title}</strong><br><br>${r.desc}`;
+div.innerHTML = `
+  <div class="rule-title">${r.title}</div>
+  ${r.desc}
+`;
       list.appendChild(div);
     });
 }
