@@ -59,36 +59,30 @@
   }
 
   /* 📘 개별 규칙 박스 */
-  .rule {
-    background: #fffaf3;
-    padding: 20px 22px;
-    border-radius: 16px;
-    width: 92%;
-    max-width: 680px;
+ .rule {
+  background: #ffffff;  /* 완전 흰색으로 변경 → 가장 가독성 좋음 */
+  padding: 22px 24px;
+  border-radius: 18px;
+  width: 92%;
+  max-width: 680px;
 
-    text-align: left;
-    color: #4a2f14;
-    
-    box-shadow: 
-      0 4px 10px rgba(0,0,0,0.18),
-      inset 0 1px 2px rgba(255,255,255,0.7);
+  text-align: left;
+  color: #3c2a16;  /* 조금 더 진한 브라운으로 눈에 잘 들어옴 */
+  
+  box-shadow: 
+    0 4px 12px rgba(0,0,0,0.15),
+    inset 0 1px 2px rgba(255,255,255,0.85);
 
-    border-left: 8px solid #d6b384;
+  border-left: 8px solid #d7b68c; /* 더 밝은 우드톤 */
 
-    transition: 0.2s;
-    cursor: pointer;
-  }
+  transition: 0.2s;
+  cursor: pointer;
+}
 
-  .rule strong {
-    color: #3a2511;
-    font-size: 1.1rem;
-  }
-
-  .rule:hover {
-    transform: translateY(-4px);
-    background: #fff3e4;
-  }
-
+.rule:hover {
+  transform: translateY(-4px);
+  background: #fff8ef; /* 은은한 연우드 하이라이트 */
+}
   /* ← 메인 버튼 동일 스타일 */
   .back {
     position: fixed;
